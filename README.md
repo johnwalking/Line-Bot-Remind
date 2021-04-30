@@ -34,3 +34,5 @@ https://github.com/twtrubiks/Deploying-Flask-To-Heroku
 
 https://yalanin.medium.com/rails-linebot-串接心得分享-96df46935157
 
+https://codertw.com/伺服器/169097/
+
