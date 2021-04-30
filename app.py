@@ -67,7 +67,6 @@ def callback():
     
 
 
-
 @app.route('/', methods=['POST', 'GET'])
 def index():
     if request.method == 'POST':
@@ -81,7 +80,7 @@ def index():
             db.session.add(new_task)
             db.session.commit()
             
-            line_bot_api.push_message("Uaac20fffc4c32289ca9b9d22915c8fe4", TextSendMessage(text='Change DataBase Successfully !'))
+            line_bot_api.push_message("Uaac20fffc4c32289ca9b9d22915c8fe4", TextSendMessage(text='Add new item Successfully !'))
              
             return redirect('/')
         except:
@@ -92,7 +91,19 @@ def index():
             return 'There was an issue adding your task'
 
     else:
-        tasks = Todo.query.order_by(Todo.date_created).all()
+        tasks = Todo.query.order_by(Todo.day_to_do).all()
+        
+        for task in tasks:
+            try:
+                time =datetime.strptime( "2021/"+str(task.day_to_do)+"/"+str(task.time_to_do)  , "%Y/%m/%d/%H:%M").timestamp() 
+            except:
+                continue
+            if  datetime.strptime(time, "%Y/%m/%d/%H:%M").timestamp() > datetime.now().timestamp():
+                line_bot_api.push_message("Uaac20fffc4c32289ca9b9d22915c8fe4", TextSendMessage(text="It's time to "+str(task.content)))
+                task_to_delete = Todo.query.get_or_404(task.id)
+                db.session.delete(task_to_delete)
+                db.session.commit()
+            
         return render_template('index.html', tasks=tasks)
 
 
@@ -118,6 +129,8 @@ def update(id):
 
         try:
             db.session.commit()
+            
+            line_bot_api.push_message("Uaac20fffc4c32289ca9b9d22915c8fe4", TextSendMessage(text='Update DataBase Successfully!'))
             return redirect('/')
         except:
             return 'There was an issue updating your task'
