@@ -4,7 +4,7 @@ from datetime import datetime
 
 sched = BlockingScheduler()
 
-@sched.scheduled_job('cron', day_of_week='mon-sun', hour='8-24', minute='*/2')
+@sched.scheduled_job('cron', day_of_week='mon-sun', hour='8-24', minute='*/5')
 def scheduled_job():
     
     print('========== APScheduler CRON =========')

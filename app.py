@@ -57,13 +57,24 @@ def callback():
     
     return "OK"
 
-
-# @handler.add(MessageEvent, message=TextMessage)
-# def handle_message(event):
-#     line_bot_api.reply_message(
-#         event.reply_token,
-#         TextSendMessage(text=event.message.text)
-#     )  
+ 
+@handler.add(MessageEvent, message=TextMessage)
+def handle_message(event):
+    if event.message.text == "今日" or event.message.text == "今天": 
+        tasks = Todo.query.order_by(Todo.day_to_do).all()
+        date = str(datetime.now()) 
+        today = date.split(" ")[0].split("-")[1]+"/"+date.split(" ")[0].split("-")[2]
+        
+        ret = "" 
+        if len(tasks) >=1:
+            for task in tasks:
+                if task.day_to_do == today:
+                    ret += ( str(task.content)+"-->"+ str(task.time_to_do)+"   ")            
+        
+        line_bot_api.reply_message(
+            "Uaac20fffc4c32289ca9b9d22915c8fe4",
+            TextSendMessage(text=ret)
+        ) 
     
 
 
