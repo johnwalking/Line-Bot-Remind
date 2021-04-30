@@ -97,7 +97,7 @@ def index():
             for task in tasks:
                 time = "2021/"+str(task.day_to_do)+"/"+str(task.time_to_do) 
                 print(time)
-                if  datetime.strptime(time, "%Y/%m/%d/%H:%M").timestamp() >=  datetime.now().timestamp():
+                if  datetime.strptime(time, "%Y/%m/%d/%H:%M").timestamp() <  datetime.now().timestamp():
                     line_bot_api.push_message("Uaac20fffc4c32289ca9b9d22915c8fe4", TextSendMessage(text="It's time to "+str(task.content)))
                     task_to_delete = Todo.query.get_or_404(task.id)
                     db.session.delete(task_to_delete)
