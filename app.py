@@ -3,10 +3,27 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from datetime import timedelta
 
+from linebot import (
+    LineBotApi, WebhookHandler,
+)
+import json
+
+from linebot.exceptions import(
+    InvalidSignatureError,
+)
+
+from linebot.models import *
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app)
-
+# channel access token 
+line_bot_api = LineBotApi("3ZRPiUoXnoLf+TjLgiq0Dkhi52kFxjSdMLpWxHPw/4fpJNHJCWPfZh5TjWWbMeotxxzuyf2k3uG0pU7gjzCYIet4eKR7z4QlaVRLF9Q8E//+iOUKj8ZImu/W7DpOGfhpnaScxvLUJOSBDYm6sqMMXgdB04t89/1O/w1cDnyilFU=")
+# channel Secret
+handler = WebhookHandler("ef4938f6e2b3adde11d7a99d32a5ebad")
+ 
+ 
+ 
 class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(200), nullable=False)
@@ -18,6 +35,37 @@ class Todo(db.Model):
         return '<Task %r>' % self.id
 
 
+@app.route('/callback', methods=['POST'])
+def callback():
+    signature = request.header['X-Line-Signature']
+    
+    #get request body as text
+    body = request.get_data(as_text = True)
+    d = json.loads(body)
+    reid = d['events'][0]["message"]["id"]
+    print("R_ID: ", end = "")
+    print(reid)
+    User_id = d['events'][0]["source"]["userId"]
+    print("UserID: ", end = "")
+    print(User_id)
+    
+    try:
+        handler.handle(body, signature)
+    except InvalidSignatureError:
+        print("Invalid signature. Please check your channel access token/channel secret.")
+        abort(400)
+    
+    return "OK"
+
+
+@handler.add(MessageEvent, message=TextMessage)
+def handle_message(event):
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=event.message.text)
+    )     
+
+
 @app.route('/', methods=['POST', 'GET'])
 def index():
     if request.method == 'POST':
@@ -25,10 +73,17 @@ def index():
         task_day = request.form['day_to_do']
         task_time = request.form['time_to_do']
         new_task = Todo(content=task_content, day_to_do = task_day,time_to_do=task_time)
+        
 
         try:
             db.session.add(new_task)
             db.session.commit()
+            
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="你對資料庫的改動成功")
+            )
+             
             return redirect('/')
         except:
             return 'There was an issue adding your task'
@@ -69,4 +124,4 @@ def update(id):
 
 
 if __name__ == "__main__":
-    app.run(debug=True,port = 7777)
+    app.run(debug=True,port = 7776)
