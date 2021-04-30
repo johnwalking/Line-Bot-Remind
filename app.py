@@ -80,7 +80,7 @@ def index():
             db.session.add(new_task)
             db.session.commit()
             
-            line_bot_api.push_message("Uaac20fffc4c32289ca9b9d22915c8fe4", TextSendMessage(text='Add new item Successfully !'))
+            line_bot_api.push_message("Uaac20fffc4c32289ca9b9d22915c8fe4", TextSendMessage(text='Add new item to '+task_content+" at "+task_day+"/"+task_time+" Successfully !"))
              
             return redirect('/')
         except:
@@ -97,8 +97,8 @@ def index():
             for task in tasks:
                 time = "2021/"+str(task.day_to_do)+"/"+str(task.time_to_do) 
                 print(time)
-                if  datetime.strptime(time, "%Y/%m/%d/%H:%M").timestamp() <  datetime.now().timestamp():
-                    line_bot_api.push_message("Uaac20fffc4c32289ca9b9d22915c8fe4", TextSendMessage(text="It's time to "+str(task.content)))
+                if  datetime.strptime(time, "%Y/%m/%d/%H:%M").timestamp() <  datetime.now().timestamp()-3600 :
+                    line_bot_api.push_message("Uaac20fffc4c32289ca9b9d22915c8fe4", TextSendMessage(text="It's time to "+str(task.content)+" afte about an hour."))
                     task_to_delete = Todo.query.get_or_404(task.id)
                     db.session.delete(task_to_delete)
                     db.session.commit()
@@ -129,7 +129,7 @@ def update(id):
         try:
             db.session.commit()
             
-            line_bot_api.push_message("Uaac20fffc4c32289ca9b9d22915c8fe4", TextSendMessage(text='Update DataBase Successfully!'))
+            # line_bot_api.push_message("Uaac20fffc4c32289ca9b9d22915c8fe4", TextSendMessage(text='Update DataBase Successfully!'))
             return redirect('/')
         except:
             return 'There was an issue updating your task'
