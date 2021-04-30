@@ -73,7 +73,7 @@ def handle_message(event):
                     ret += ( str(task.content)+"-->"+ str(task.time_to_do)+"   ")            
         
         line_bot_api.reply_message(
-            "Uaac20fffc4c32289ca9b9d22915c8fe4",
+            event.reply_token,
             TextSendMessage(text=ret)
         ) 
     
