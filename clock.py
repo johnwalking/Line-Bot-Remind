@@ -1,6 +1,6 @@
 from apscheduler.schedulers.blocking import BlockingScheduler
 
-import datetime
+from datetime import datetime
 
 sched = BlockingScheduler()
 
@@ -11,7 +11,7 @@ def scheduled_job():
         # 馬上讓我們瞧瞧
     print('This job runs every day */2 min.')
     # 利用datetime查詢時間
-    print(f'{datetime.datetime.now().ctime()}')
+    print(f'{datetime.now().ctime()}')
     
     print('========== APScheduler CRON =========')
     url = "https://cbare.herokuapp.com"
