@@ -93,19 +93,16 @@ def index():
     else:
         tasks = Todo.query.order_by(Todo.day_to_do).all()
         
-        
-        if tasks.first() != None:
+        if len(tasks) >=1:
             for task in tasks:
-                try:
-                    time =datetime.strptime( "2021/"+str(task.day_to_do)+"/"+str(task.time_to_do)  , "%Y/%m/%d/%H:%M").timestamp() 
-                    print(time)
-                    if  datetime.strptime(time, "%Y/%m/%d/%H:%M").timestamp() > datetime.now().timestamp():
-                        line_bot_api.push_message("Uaac20fffc4c32289ca9b9d22915c8fe4", TextSendMessage(text="It's time to "+str(task.content)))
-                        task_to_delete = Todo.query.get_or_404(task.id)
-                        db.session.delete(task_to_delete)
-                        db.session.commit()
-                except:
-                    print("error happened.")
+                time =datetime.strptime( "2021/"+str(task.day_to_do)+"/"+str(task.time_to_do)  , "%Y/%m/%d/%H:%M").timestamp() 
+                print(time)
+                if  datetime.strptime(time, "%Y/%m/%d/%H:%M").timestamp() >=  datetime.now().timestamp():
+                    line_bot_api.push_message("Uaac20fffc4c32289ca9b9d22915c8fe4", TextSendMessage(text="It's time to "+str(task.content)))
+                    task_to_delete = Todo.query.get_or_404(task.id)
+                    db.session.delete(task_to_delete)
+                    db.session.commit()
+        tasks = Todo.query.order_by(Todo.day_to_do).all() 
         return render_template('index.html', tasks=tasks)
 
 
