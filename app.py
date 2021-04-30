@@ -60,7 +60,7 @@ def callback():
  
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    print(vent.message.text+"---------")
+    print(event.message.text+"---------")
     if  "今日"  in str(event.message.text) or  "今天" in str(event.message.text) : 
         tasks = Todo.query.order_by(Todo.day_to_do).all()
         date = str(datetime.now()) 
