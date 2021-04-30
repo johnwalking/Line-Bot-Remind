@@ -58,12 +58,14 @@ def callback():
     return "OK"
 
 
-@handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=event.message.text)
-    )     
+# @handler.add(MessageEvent, message=TextMessage)
+# def handle_message(event):
+#     line_bot_api.reply_message(
+#         event.reply_token,
+#         TextSendMessage(text=event.message.text)
+#     )  
+    
+
 
 
 @app.route('/', methods=['POST', 'GET'])
@@ -79,13 +81,14 @@ def index():
             db.session.add(new_task)
             db.session.commit()
             
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text="你對資料庫的改動成功")
-            )
+            line_bot_api.push_message("Uaac20fffc4c32289ca9b9d22915c8fe4", TextSendMessage(text='Change DataBase Successfully !'))
              
             return redirect('/')
         except:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text="你對資料庫的改動成功")
+            ) 
             return 'There was an issue adding your task'
 
     else:
