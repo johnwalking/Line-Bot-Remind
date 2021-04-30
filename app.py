@@ -35,27 +35,24 @@ class Todo(db.Model):
         return '<Task %r>' % self.id
 
 
-@app.route('/callback', methods=['POST'])
+@app.route("/callback", methods=['POST'])
 def callback():
-    signature = request.header['X-Line-Signature']
-    
-    #get request body as text
-    body = request.get_data(as_text = True)
-    d = json.loads(body)
-    reid = d['events'][0]["message"]["id"]
-    print("R_ID: ", end = "")
-    print(reid)
-    User_id = d['events'][0]["source"]["userId"]
-    print("UserID: ", end = "")
-    print(User_id)
-    
+    # get X-Line-Signature header value
+    signature = request.headers['X-Line-Signature']
+
+    # get request body as text
+    body = request.get_data(as_text=True)
+    app.logger.info("Request body: " + body)
+
+    # handle webhook body
     try:
         handler.handle(body, signature)
     except InvalidSignatureError:
         print("Invalid signature. Please check your channel access token/channel secret.")
         abort(400)
-    
-    return "OK"
+
+    return 'OK'
+
 
  
 @handler.add(MessageEvent, message=TextMessage)
