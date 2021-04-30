@@ -11,6 +11,8 @@
     <div class="form">
         <form action="/update/{{task.id}}" method="POST">
             <input type="text" name="content" id="content" value="{{task.content}}">
+            <input type="text" name="day_to_do" id="day_to_do" value="{{task.day_to_do}}">
+            <input type="text" name="time_to_do" id="time_to_do" value="{{task.time_to_do}}">
             <input type="submit" value="Update">
         </form>
     </div>

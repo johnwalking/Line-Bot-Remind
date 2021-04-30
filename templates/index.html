@@ -14,12 +14,16 @@
         <tr>
             <th>Task</th>
             <th>Added</th>
+            <th>Day to do </th> 
+            <th>Time to do </th> 
             <th>Actions</th>
         </tr>
         {% for task in tasks %}
             <tr>
                 <td>{{ task.content }}</td>
-                <td>{{ task.date_created.date() }}</td>
+                <td>{{ task.date_created }}</td>
+                <td>{{ task.day_to_do }}</td>
+                <td>{{ task.time_to_do }}</td>
                 <td>
                     <a href="/delete/{{task.id}}">Delete</a>
                     <br>
@@ -33,7 +37,12 @@
     <div class="form">
         <form action="/" method="POST">
             <input type="text" name="content" id="content">
+            <br>
+            <input type="text" name="day_to_do" id="day_to_do"><input type="text" name="time_to_do" id="time_to_do">
+            <br>
             <input type="submit" value="Add Task">
+            
+            
         </form>
     </div>
 </div>
