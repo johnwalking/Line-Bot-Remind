@@ -60,7 +60,7 @@ def callback():
  
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    if event.message.text == "今日" or event.message.text == "今天": 
+    if  "今日"  in event.message.text or  "今天" in event.message.text : 
         tasks = Todo.query.order_by(Todo.day_to_do).all()
         date = str(datetime.now()) 
         today = date.split(" ")[0].split("-")[1]+"/"+date.split(" ")[0].split("-")[2]
@@ -95,10 +95,10 @@ def index():
              
             return redirect('/')
         except:
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text="你對資料庫的改動成功")
-            ) 
+            # line_bot_api.reply_message(
+            #     event.reply_token,
+            #     TextSendMessage(text="你對資料庫的改動成功")
+            # ) 
             return 'There was an issue adding your task'
 
     else:
