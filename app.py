@@ -105,7 +105,7 @@ def index():
                         db.session.delete(task_to_delete)
                         db.session.commit()
                 except:
-                    print("error happened."))
+                    print("error happened.")
         return render_template('index.html', tasks=tasks)
 
 
