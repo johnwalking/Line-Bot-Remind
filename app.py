@@ -67,13 +67,26 @@ def handle_message(event):
         if len(tasks) >=1:
             for task in tasks:
                 if task.day_to_do == today:
-                    ret += ( str(task.content)+"-->"+ str(task.time_to_do)+"   ")            
-        if ret!="": 
+                    ret += ( str(task.content)+" at "+ str(task.time_to_do)+"   ")            
+        if ret != "": 
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text=ret)
-            ) 
-    
+            )
+    elif  "所有"  in str(event.message.text) or  "All" in str(event.message.text) or  "all" in str(event.message.text) : 
+        tasks = Todo.query.order_by(Todo.day_to_do).all()
+        date = str(datetime.now()) 
+        today = str(int(date.split(" ")[0].split("-")[1]))+"/"+date.split(" ")[0].split("-")[2]
+        
+        ret = "" 
+        if len(tasks) >=1:
+            for task in tasks:
+                ret += ( str(task.content)+" at "+ str(task.time_to_do)+"   ")            
+        if ret != "": 
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=ret)
+            )    
 
 
 @app.route('/', methods=['POST', 'GET'])
