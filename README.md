@@ -16,6 +16,13 @@
 
 ![image](https://github.com/johnwalking/Line-Bot-Remind/blob/main/picture2.png)
 
+
+下圖為簡略版網站頁面：
+分別填寫： 預計要做的事  預計發生的日期（格式須為MM/DD） 預計時間（格式須為HH:MM）
+
+
+![image](https://github.com/johnwalking/Line-Bot-Remind/blob/main/picture3.png)
+
 相關素材：
 
 
