@@ -1,4 +1,14 @@
 # Tutorail 
+1.至 https://developers.line.biz/zh-hant/ 開通帳號
+
+
+2.至 heroku.com 使網站上線
+
+
+3.填寫自己的  your_user_id , channel access token , channel Secret
+
+
+
 
 相關素材：
 
