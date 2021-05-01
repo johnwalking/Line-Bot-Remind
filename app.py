@@ -18,9 +18,9 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app)
 # channel access token 
-line_bot_api = LineBotApi("3ZRPiUoXnoLf+TjLgiq0Dkhi52kFxjSdMLpWxHPw/4fpJNHJCWPfZh5TjWWbMeotxxzuyf2k3uG0pU7gjzCYIet4eKR7z4QlaVRLF9Q8E//+iOUKj8ZImu/W7DpOGfhpnaScxvLUJOSBDYm6sqMMXgdB04t89/1O/w1cDnyilFU=")
+line_bot_api = LineBotApi(your own chaennel access token)
 # channel Secret
-handler = WebhookHandler("ef4938f6e2b3adde11d7a99d32a5ebad")
+handler = WebhookHandler( your own channel Secret)
  
  
  
@@ -63,7 +63,7 @@ def handle_message(event):
         new_task = Todo(content=new_list[0], day_to_do = new_list[1],time_to_do=new_list[2])
         db.session.add(new_task)
         db.session.commit()
-        line_bot_api.push_message("Uaac20fffc4c32289ca9b9d22915c8fe4", TextSendMessage(text='Add new item to '+new_list[0]+" at "+new_list[1]+"/"+new_list[2]+" Successfully !"))
+        line_bot_api.push_message( your_user_id , TextSendMessage(text='Add new item to '+new_list[0]+" at "+new_list[1]+"/"+new_list[2]+" Successfully !"))
                      
     elif  "today"  in str(event.message.text) or  "今天" in str(event.message.text) :
     
@@ -111,7 +111,7 @@ def index():
             db.session.add(new_task)
             db.session.commit()
             
-            line_bot_api.push_message("Uaac20fffc4c32289ca9b9d22915c8fe4", TextSendMessage(text='Add new item to '+task_content+" at "+task_day+"/"+task_time+" Successfully !"))
+            line_bot_api.push_message( your_user_id , TextSendMessage(text='Add new item to '+task_content+" at "+task_day+"/"+task_time+" Successfully !"))
              
             return redirect('/')
         except:
@@ -130,7 +130,7 @@ def index():
                 print(time)
                 print(datetime.strptime(time, "%Y/%m/%d/%H:%M").timestamp(), datetime.now().timestamp()  + 3600 )
                 if  datetime.strptime(time, "%Y/%m/%d/%H:%M").timestamp() <  datetime.now().timestamp() + 3600 :
-                    line_bot_api.push_message("Uaac20fffc4c32289ca9b9d22915c8fe4", TextSendMessage(text="It's time to "+str(task.content)+" afte about an hour."))
+                    line_bot_api.push_message( your_user_id, TextSendMessage(text="It's time to "+str(task.content)+" afte about an hour."))
                     task_to_delete = Todo.query.get_or_404(task.id)
                     db.session.delete(task_to_delete)
                     db.session.commit()
@@ -161,7 +161,7 @@ def update(id):
         try:
             db.session.commit()
             
-            # line_bot_api.push_message("Uaac20fffc4c32289ca9b9d22915c8fe4", TextSendMessage(text='Update DataBase Successfully!'))
+        
             return redirect('/')
         except:
             return 'There was an issue updating your task'
