@@ -58,7 +58,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     print(event.message.text+"---------")
-    if  "今日"  in str(event.message.text) or  "今天" in str(event.message.text) : 
+    if  "today"  in str(event.message.text) or  "今天" in str(event.message.text) : 
         tasks = Todo.query.order_by(Todo.day_to_do).all()
         date = str(datetime.now()) 
         today = str(int(date.split(" ")[0].split("-")[1]))+"/"+date.split(" ")[0].split("-")[2]
@@ -67,7 +67,7 @@ def handle_message(event):
         if len(tasks) >=1:
             for task in tasks:
                 if task.day_to_do == today:
-                    ret += ( str(task.content)+" at "+ str(task.time_to_do)+"   ")            
+                    ret += ( str(task.content)+" at "+ str(task.time_to_do)+"\n")            
         if ret != "": 
             line_bot_api.reply_message(
                 event.reply_token,
@@ -81,7 +81,7 @@ def handle_message(event):
         ret = "" 
         if len(tasks) >=1:
             for task in tasks:
-                ret += ( str(task.content)+" at "+ str(task.time_to_do)+"   ")            
+                ret += ( str(task.content)+" in "+ str(task.day_to_do)+" "+str(task.time_to_do)+ '\n')            
         if ret != "": 
             line_bot_api.reply_message(
                 event.reply_token,
