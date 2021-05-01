@@ -58,7 +58,14 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     print(event.message.text+"---------")
-    if  "today"  in str(event.message.text) or  "今天" in str(event.message.text) :
+    new_list = event.message.text.split(" ")
+    if len(new_list) == 3:
+        new_task = Todo(content=new_list[0], day_to_do = new_list[1],time_to_do=new_list[2])
+        db.session.add(new_task)
+        db.session.commit()
+        line_bot_api.push_message("Uaac20fffc4c32289ca9b9d22915c8fe4", TextSendMessage(text='Add new item to '+new_list[0]+" at "+new_list[1]+"/"+new_list[2]+" Successfully !"))
+                     
+    elif  "today"  in str(event.message.text) or  "今天" in str(event.message.text) :
     
         print("today 觸發")
         tasks = Todo.query.order_by(Todo.day_to_do).all()
