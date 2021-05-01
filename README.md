@@ -8,7 +8,13 @@
 3.填寫自己的  your_user_id , channel access token , channel Secret
 
 
+下圖為使用範例：
 
+
+
+![image](https://github.com/johnwalking/Line-Bot-Remind/blob/main/picture1.png)
+
+![image](https://github.com/johnwalking/Line-Bot-Remind/blob/main/picture2.png)
 
 相關素材：
 
