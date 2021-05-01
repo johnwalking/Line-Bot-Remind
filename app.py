@@ -58,10 +58,12 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     print(event.message.text+"---------")
-    if  "today"  in str(event.message.text) or  "今天" in str(event.message.text) : 
+    if  "today"  in str(event.message.text) or  "今天" in str(event.message.text) :
+    
+        print("today 觸發")
         tasks = Todo.query.order_by(Todo.day_to_do).all()
         date = str(datetime.now()) 
-        today = str(int(date.split(" ")[0].split("-")[1]))+"/"+date.split(" ")[0].split("-")[2]
+        today = str(int(date.split(" ")[0].split("-")[1]))+"/" + str(int(date.split(" ")[0].split("-")[2] ))
         
         ret = "" 
         if len(tasks) >=1:
@@ -119,6 +121,7 @@ def index():
             for task in tasks:
                 time = "2021/"+str(task.day_to_do)+"/"+str(task.time_to_do) 
                 print(time)
+                print(datetime.strptime(time, "%Y/%m/%d/%H:%M").timestamp(), datetime.now().timestamp()-3600 )
                 if  datetime.strptime(time, "%Y/%m/%d/%H:%M").timestamp() <  datetime.now().timestamp()-3600 :
                     line_bot_api.push_message("Uaac20fffc4c32289ca9b9d22915c8fe4", TextSendMessage(text="It's time to "+str(task.content)+" afte about an hour."))
                     task_to_delete = Todo.query.get_or_404(task.id)
