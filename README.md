@@ -1,4 +1,6 @@
 # Tutorail 
+基於Flask 框架設計簡易網站，並串接line robot 
+
 1.至 https://developers.line.biz/zh-hant/ 開通帳號
 
 
